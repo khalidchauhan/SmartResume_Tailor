@@ -219,8 +219,8 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.goto('/');
 
     // Verify Title & Branding
-    await expect(page.locator('text=SmartResume')).toBeVisible();
-    await expect(page.locator('text=Active Base Resume')).toBeVisible();
+    await expect(page.locator('header').getByText('SmartResume', { exact: true })).toBeVisible();
+    await expect(page.getByText('Active Base Resume')).toBeVisible();
 
     // 2. Automate User Typing: Keywords & Location with human delay
     const keywordsInput = page.getByPlaceholder(/Target Keywords/i);
@@ -239,21 +239,21 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.waitForTimeout(600);
 
     // 4. Assert Job Rows Appear in Table
-    await expect(page.locator('text=Lead Java Systems Engineer')).toBeVisible();
-    await expect(page.locator('text=Senior Frontend Dev')).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Lead Java Systems Engineer' })).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Senior Frontend Dev' })).toBeVisible();
 
     // 5. Test Filter Tabs in Browser
     const qualifiedTab = page.getByRole('button', { name: /Qualified ≥80%/i });
     await qualifiedTab.click();
     await page.waitForTimeout(500);
-    await expect(page.locator('text=Lead Java Systems Engineer')).toBeVisible();
-    await expect(page.locator('text=Senior Frontend Dev')).not.toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Lead Java Systems Engineer' })).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Senior Frontend Dev' })).not.toBeVisible();
 
     const droppedTab = page.getByRole('button', { name: /Dropped <80%/i });
     await droppedTab.click();
     await page.waitForTimeout(500);
-    await expect(page.locator('text=Lead Java Systems Engineer')).not.toBeVisible();
-    await expect(page.locator('text=Senior Frontend Dev')).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Lead Java Systems Engineer' })).not.toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Senior Frontend Dev' })).toBeVisible();
 
     const allTab = page.getByRole('button', { name: /All \(/i });
     await allTab.click();
@@ -265,8 +265,8 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.waitForTimeout(600);
 
     // Assert modal elements
-    await expect(page.locator('text=QUALIFIED (≥ 80% THRESHOLD MET)')).toBeVisible();
-    await expect(page.locator('text=Proceed to Resume Refinement')).toBeVisible();
+    await expect(page.getByText('QUALIFIED (≥ 80% THRESHOLD MET)')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Proceed to Resume Refinement/i })).toBeVisible();
 
     // 7. Click "Proceed to Resume Refinement"
     const proceedBtn = page.getByRole('button', { name: /Proceed to Resume Refinement/i });
@@ -274,9 +274,9 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.waitForTimeout(700);
 
     // 8. Verify Side-by-Side Diff Studio
-    await expect(page.locator('text=Side-by-Side ATS Comparison & Diff')).toBeVisible();
-    await expect(page.locator('text=Tailored ATS-Optimized Resume')).toBeVisible();
-    await expect(page.locator('text=98%')).toBeVisible();
+    await expect(page.getByText('Side-by-Side ATS Comparison & Diff')).toBeVisible();
+    await expect(page.getByText('Tailored ATS-Optimized Resume')).toBeVisible();
+    await expect(page.getByText('98%')).toBeVisible();
 
     // 9. Toggle Diff Rewrite Accept / Revert
     const toggleBtn = page.locator('button[title="Revert to original"]');
@@ -288,11 +288,11 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await expect(page.locator('button[title="Accept tailored rewrite"]')).toBeVisible();
 
     // 10. Click Back to Dashboard
-    const backBtn = page.locator('main').getByRole('button').first();
+    const backBtn = page.locator('main button').first();
     await backBtn.click();
     await page.waitForTimeout(500);
 
     // Verify returned to pipeline
-    await expect(page.locator('text=Active Job Pipeline')).toBeVisible();
+    await expect(page.getByText('Active Job Pipeline')).toBeVisible();
   });
 });
