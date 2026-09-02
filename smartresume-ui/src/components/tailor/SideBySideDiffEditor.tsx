@@ -52,6 +52,7 @@ export const SideBySideDiffEditor: React.FC<SideBySideDiffEditorProps> = ({
         <div className="flex items-center gap-3.5">
           <button
             onClick={onBack}
+            aria-label="Back to dashboard"
             className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

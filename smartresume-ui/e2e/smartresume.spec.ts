@@ -220,7 +220,7 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
 
     // Verify Title & Branding
     await expect(page.locator('header').getByText('SmartResume', { exact: true })).toBeVisible();
-    await expect(page.getByText('Active Base Resume')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Active Base Resume' })).toBeVisible();
 
     // 2. Automate User Typing: Keywords & Location with human delay
     const keywordsInput = page.getByPlaceholder(/Target Keywords/i);
@@ -265,7 +265,7 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.waitForTimeout(600);
 
     // Assert modal elements
-    await expect(page.getByText('QUALIFIED (≥ 80% THRESHOLD MET)')).toBeVisible();
+    await expect(page.getByText('QUALIFIED (≥ 80% THRESHOLD MET)', { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /Proceed to Resume Refinement/i })).toBeVisible();
 
     // 7. Click "Proceed to Resume Refinement"
@@ -274,9 +274,9 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await page.waitForTimeout(700);
 
     // 8. Verify Side-by-Side Diff Studio
-    await expect(page.getByText('Side-by-Side ATS Comparison & Diff')).toBeVisible();
-    await expect(page.getByText('Tailored ATS-Optimized Resume')).toBeVisible();
-    await expect(page.getByText('98%')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Side-by-Side ATS Comparison & Diff' })).toBeVisible();
+    await expect(page.getByText('Tailored ATS-Optimized Resume', { exact: true })).toBeVisible();
+    await expect(page.getByText('98%', { exact: true })).toBeVisible();
 
     // 9. Toggle Diff Rewrite Accept / Revert
     const toggleBtn = page.locator('button[title="Revert to original"]');
@@ -288,11 +288,11 @@ test.describe('SmartResume Tailor - Visual Browser Automation', () => {
     await expect(page.locator('button[title="Accept tailored rewrite"]')).toBeVisible();
 
     // 10. Click Back to Dashboard
-    const backBtn = page.locator('main button').first();
+    const backBtn = page.getByRole('button', { name: /Back to dashboard/i });
     await backBtn.click();
     await page.waitForTimeout(500);
 
     // Verify returned to pipeline
-    await expect(page.getByText('Active Job Pipeline')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Active Job Pipeline' })).toBeVisible();
   });
 });
